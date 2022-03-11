@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "ef9f92b4-ac97-4880-b053-fd699652fb7f",
+		"name": "desafioQA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Método Get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Retorno Ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Texto Fonte Ok\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Alcyr Neto e Pepo Sanches\");\r",
+							"});\r",
+							"pm.test(\"Retornou qntd. certa de caracteres\", function () {\r",
+							"    pm.expect(pm.response.text()).to.lengthOf(25);\r",
+							"});\r",
+							"pm.test(\"Retornou Alcyr ou Pepo\", function () {\r",
+							"    pm.expect(pm.response.text()).to.contain.oneOf(['Alcyr', 'Pepo']);\r",
+							"});\r",
+							"pm.test(\"Não retornou Shrek\", function () {\r",
+							"    pm.expect('Alcyr Neto e Pepo Sanches').to.not.have.string('Shrek');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44303/WeatherForecast",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44303",
+					"path": [
+						"WeatherForecast"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Alcyr",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Post bem sucedido\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"pm.test(\"ms menor que 50\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+							"});\r",
+							"pm.test(\"Tamanho do Header não pode ser superior à 210B\", function () {\r",
+							"    pm.expect(pm.response.headers.contentSize()).to.be.below(210);\r",
+							"});\r",
+							"pm.test(\"Tamanho do Body não pode ser superior à 5B\", function () {\r",
+							"    pm.expect(pm.response.responseSize).to.be.below(6);\r",
+							"});\r",
+							"pm.test(\"Retornou Neto\", function () {\r",
+							"    pm.response.to.have.body(\"Neto\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44303/WeatherForecast?name=Alcyr",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44303",
+					"path": [
+						"WeatherForecast"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Alcyr",
+							"description": "Deve retornar Neto"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Pepo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Post bem sucedido\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.equal(200);\r",
+							"});\r",
+							"pm.test(\"ms menor que 50\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.not.be.above(50);\r",
+							"});\r",
+							"pm.test(\"Tamanho do Header não pode ser superior à 210B\", function () {\r",
+							"    pm.expect(pm.response.headers.contentSize()).to.not.be.above(210);\r",
+							"});\r",
+							"pm.test(\"Tamanho do Body não pode ser superior à 10B\", function () {\r",
+							"    pm.expect(pm.response.responseSize).to.not.be.above(10);\r",
+							"});\r",
+							"pm.test(\"Retornou Sanches\", function () {\r",
+							"    pm.response.to.have.body(\"Sanches\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44303/WeatherForecast?name=Pepo",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44303",
+					"path": [
+						"WeatherForecast"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Pepo",
+							"description": "Deve retornar Sanches"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Jorge",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Retorna PASS\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"Não retornou Neto\", function () {\r",
+							"    pm.response.to.not.have.body(\"Neto\");\r",
+							"});\r",
+							"pm.test(\"Não retornou Sanches\", function () {\r",
+							"    pm.response.to.not.have.body(\"Sanches\");\r",
+							"});\r",
+							"pm.test(\"Retornou Ruim\", function () {\r",
+							"    pm.response.to.have.body(\"deu ruim\");\r",
+							"});\r",
+							"pm.test(\"Caracteres correspondem\", function () {\r",
+							"    pm.expect('deu ruim').to.have.string('eu ru');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44303/WeatherForecast?name=Jorge",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44303",
+					"path": [
+						"WeatherForecast"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Jorge",
+							"description": "Shrek"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "name",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
